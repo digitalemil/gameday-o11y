@@ -1,0 +1,128 @@
+<html>
+    <body>
+        <img style="position: absolute; top:8px; left:80%; width: 20%;" src="http://storage.googleapis.com/thegym-public/cockroachlabs-svgrepo-com.svg"/>
+        <h1>A CockroachDB Demo</h1>
+        called Sourdough.
+        <p>
+        <b>CockroachDB</b> running in demo mode. Please see the Demo-specific (e.g. node de/re commission) here:
+        <a href="https://www.cockroachlabs.com/docs/stable/cockroach-demo">CockroachDB demo docs</a>
+        <p></p>
+        Best start with: <a href="setup.drawio.html">Architecure Diagram (with links)</a>   
+        <br>If you receive a 502 when accessing a http port please be patient. 
+<p></p>
+        In the console where you started the docker container you are connected to the CockroachDB demo console.<br>(You might need to hit the enter key for the prompt though.) 
+        <br>You can add, shutdown or de/re commission nodes and watch the application continue to run.
+       <br>
+        <br>Please ignore the following error messages during startup:
+        <pre>
+        ERROR: setting or updating a password is not supported in insecure mode
+        SQLSTATE: 28P01
+        </pre>
+        <p></p>
+        ERROR: setting or updating a password is not supported in insecure mode
+        SQLSTATE: 28P01
+
+        <p></p>
+        Per default the setup is for data domiciling with RF=3 and data stays in region.<br>
+        If you want to survive a region failure start the container with environment variable REPLICATION_FACTOR=5<br>
+        and execute:
+        <pre>
+            SET override_multi_region_zone_config = true;
+            ALTER DATABASE your-database-name SURVIVE REGION FAILURE;
+        </pre>
+        in the console.
+        <p></p>
+        You can theme the demo by setting the following environment variables: 
+        <pre>
+DATABASE=ticketsdb
+
+MAINTABLE=Tickets
+SECONDTABLE=Priorities
+STARS=Priority
+
+GRAFANAUSER_DB_PASSWORD=cr1401
+
+TITLE=Tickets
+WELCOME=Welcome to Tickets @ Exceptional Service Inc.
+CODE=rose
+
+COLOR=#282828
+BACKGROUNDCOLOR=rgba(0, 88, 144, 0.2)
+INPUTCOLOR=#FFFFF0
+LOGO=https://storage.googleapis.com/publicstuff/a336ee58-f70d-4474-99ad-3ba40bde959f.jpeg
+BACKGROUNDIMAGE=
+CREATORFILE=./private/creator.js
+
+PORT=3030
+
+</pre>
+
+<br>
+<a href="http://localhost:3088" target="_blank">Application:3088</a> (Users: joe, dude, fleur. Password value of env variable CODE)<br>
+(It will take a couple of seconds after container start until app is up.)<br>
+Loadbalanced over all three app instances (EMEA, AMERICAS, APAC)<br>
+<br><a href="http://localhost:3030" target="_blank">EMEA instance</a>
+<br><a href="http://localhost:3031" target="_blank">AMERICAS instance</a> 
+<br><a href="http://localhost:3032" target="_blank">APAC instance</a> 
+<br>
+<br><a href="http://localhost:8080" target="_blank">DBConsole</a> Ports 8080-8088<br>
+<br>SQL connections on localhost port 26257 (load balanced over all 9 nodes)<br>
+<br>SQL connections on localhost port 26258 (load balanced over all 3 EMEA nodes)<br>
+<br>SQL connections on localhost port 26259 (load balanced over all 3 APAC nodes)<br>
+<br>SQL connections on localhost port 26260 (load balanced over all 3 AMERICAS nodes)<br>
+<p></p>
+<br><a href="http://localhost:3080" target="_blank">Grafana</a><br>
+
+<p>
+<br>
+<b>Load generation built-in!</b> Start the test by running the following commands on your host.<br>
+Readonly (random over all regions): 
+<pre>
+    docker exec sourdough k6 run --vus 4 --duration 10m /opt/app/read.js
+</pre>
+Read &amp; Write (per region depending on USER env variable):
+<pre>
+    docker exec sourdough k6 run -e PORT=3087 -e USER=fleur --vus 4 --duration 10m /opt/app/readwrite.js
+    docker exec sourdough k6 run -e PORT=3087 -e USER=joe --vus 4 --duration 10m /opt/app/readwrite.js
+    docker exec sourdough k6 run -e PORT=3087 -e USER=dude --vus 4 --duration 10m /opt/app/readwrite.js
+</pre>
+
+
+<h3>Another example (one which is close to my heart ;-) set of env variables:</h3>
+<pre>
+DATABASE=breadsdb
+        
+MAINTABLE=Breads
+SECONDTABLE=Ratings
+STARS=Stars
+    
+GRAFANAUSER_DB_PASSWORD=cr1401
+    
+TITLE=Breads, breads, breads!
+WELCOME=Welcome to Emil's Bakes Sourdough Bread Bakery
+CODE=bread
+    
+COLOR=#C4A484
+BACKGROUNDCOLOR=rgba(239, 222, 205, 0.2)
+INPUTCOLOR=#5C4033
+LOGO=http://storage.googleapis.com/thegym-public/sourdough-logo-small.png
+BACKGROUNDIMAGE=http://storage.googleapis.com/thegym-public/leni.png
+
+CREATORFILE=http://storage.googleapis.com/thegym-public/bread.js
+ 
+PORT=3030
+</pre>
+A creator file needs to create a SVG with item to visualize. It needs to export a createSVG() function:
+<pre>
+exports.createSVG= createSVG;
+</pre>
+The description of the svg needs to contain a name:
+<pre>
+    &#060;svg&#062;
+    &#060;desc&#062;name="foo"&#060;/desc&#062;
+    ...
+    &#060;/svg&#062;
+</pre>
+Best to just check out the provided creator.js in the private folder
+</body>
+</html>
