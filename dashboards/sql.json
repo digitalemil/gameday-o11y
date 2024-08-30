@@ -1884,7 +1884,7 @@
   },
   "timepicker": {},
   "timezone": "America/New_York",
-  "title": "CRDB Console: SQL",
+  "title": "CRDB: SQL",
   "uid": "crdb-console-sql",
   "version": 6,
   "weekStart": ""

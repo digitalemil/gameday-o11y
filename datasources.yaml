@@ -12,10 +12,12 @@ datasources:
     access: proxy
     orgId: 1
     uid: cockroachdb
-    url: localhost:27257
-    user: root
+    url: "${DATABASE_URL}"
+    user: "${DATABASE_USER}"
+    secureJsonData:
+      password: "${DATABASE_PASSWORD}"
     isDefault: false
-    jsonData: {"connMaxLifetime":14400,"database":"${DATABASE}","maxIdleConns":100,"maxIdleConnsAuto":true,"maxOpenConns":100,"sslmode":"disable"}
+    jsonData: {"connMaxLifetime":14400,"database":"${DATABASE}","maxIdleConns":100,"maxIdleConnsAuto":true,"maxOpenConns":100,"sslmode":"require"}
     editable: true
   - name: Loki
     type: loki

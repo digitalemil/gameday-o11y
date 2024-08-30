@@ -44,8 +44,7 @@ COPY prometheus.template /opt/app
 COPY loki-local-config.yaml /opt/app
 COPY datasources.yaml /opt/app
 COPY dashboards.yaml /opt/app
-COPY dashboard.json /opt/app
-COPY dashboard2.json /opt/app
+COPY dashboards /opt/app/dashboards
 COPY html /opt/app/html
 COPY minio.sh /opt/app
 

@@ -34,10 +34,7 @@ cd /usr/share/grafana;
 cd /opt/app
 
 mkdir -p /var/lib/grafana/dashboards
-
-export __rate_interval='$__rate_interval'
-envsubst < /opt/app/dashboard.json >/var/lib/grafana/dashboards/dashboard.json
-envsubst < /opt/app/dashboard2.json >/var/lib/grafana/dashboards/dashboard2.json
+cp /opt/app/dashboards/*.json /var/lib/grafana/dashboards/
 
 #CREATE CHANGEFEED INTO  "s3://cockroachdb?AWS_ACCESS_KEY_ID=cockroachdb&AWS_SECRET_ACCESS_KEY=cockroachdb&AWS_ENDPOINT=http://127.0.0.1:9000" WITH updated, split_column_families AS SELECT * FROM Heartrates;
 #CREATE CHANGEFEED FOR TABLE heartrates INTO 's3://cockroachdb?AWS_ACCESS_KEY_ID=cockroachdb&AWS_SECRET_ACCESS_KEY=cockroachdb&AWS_ENDPOINT=http://127.0.0.1:9000&AWS_REGION=eu-west-1' with updated, split_column_families, resolved='10s';
