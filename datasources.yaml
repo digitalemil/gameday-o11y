@@ -5,8 +5,29 @@ apiVersion: 1
 # List of data sources to insert/update depending on what's
 # available in the database.
 datasources:
-  # <string, required> Sets the name you use to refer to
-  # the data source in panels and queries.
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    orgId: 1
+    uid: prometheus
+    url: http://localhost:9090
+    basicAuth: false
+    isDefault: false
+    jsonData: {
+      manageAlerts: true,
+      disableRecordingRules: false
+    }
+    editable: true
+  - name: Alertmanager
+    type: alertmanager
+    url: http://localhost:9093
+    access: proxy
+    jsonData:
+      # Valid options for implementation include mimir, cortex and prometheus
+      implementation: prometheus
+      # Whether or not Grafana should send alert instances to this Alertmanager
+      handleGrafanaManagedAlerts: true
+    # optionally
   - name: CockroachDB
     type: grafana-postgresql-datasource
     access: proxy
@@ -25,16 +46,6 @@ datasources:
     orgId: 1
     uid: loki
     url: http://localhost:3100
-    basicAuth: false
-    isDefault: false
-    jsonData: {}
-    editable: true
-  - name: Prometheus
-    type: prometheus
-    access: proxy
-    orgId: 1
-    uid: prometheus
-    url: http://localhost:9090
     basicAuth: false
     isDefault: false
     jsonData: {}

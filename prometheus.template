@@ -7,6 +7,17 @@ global:
   external_labels:
     monitor: 'gameday'
 
+# Rules and alerts are read from the specified file(s)
+rule_files:
+  - /opt/app/prometheus-2.54.1.linux-amd64/rules.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        # Alertmanager's default port is 9093
+        - localhost:9093
+
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
@@ -18,3 +29,10 @@ scrape_configs:
     scheme: 'https'
     authorization:
       credentials: '${secret_key}'
+  - job_name: 'prometheus'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['localhost:9090']
