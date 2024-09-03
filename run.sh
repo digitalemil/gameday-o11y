@@ -55,4 +55,4 @@ export SMTPUSER=tickets@digitalemil.de
 docker kill gameday
 docker rm gameday
 #docker pull $DOCKERHUB_USER/$DOCKERHUB_REPO:gameday-o11y-vlatest
-docker run --name gameday -e SMTPHOST=$SMTPHOST -e SMTPUSER=$SMTPUSER -e SMTPPASSWORD=$SMTPPASSWORD -eEMAILRECIPIENT=$EMAILRECIPIENT -e DATABASE=$DATABASE -e DATABASE_USER=$DATABASE_USER -e DATABASE_URL=$DATABASE_URL -e DATABASE_PASSWORD=$DATABASE_PASSWORD -e secret_key=$secret_key -e cluster_id=$cluster_id -e cluster_region=$cluster_region -p 8080:8080 -p 8081:8081 -p 8082:8082 $DOCKERHUB_USER/$DOCKERHUB_REPO:gameday-o11y-vlatest
+docker run --name gameday -e SMTPHOST=$SMTPHOST -e SMTPUSER=$SMTPUSER -e SMTPPASSWORD=$SMTPPASSWORD -eEMAILRECIPIENT=$EMAILRECIPIENT -e DATABASE=$DATABASE -e DATABASE_USER=$DATABASE_USER -e DATABASE_URL=$DATABASE_URL -e DATABASE_PASSWORD=$DATABASE_PASSWORD -e secret_key=$secret_key -e cluster_id=$cluster_id -e cluster_region=$cluster_region -p 7979:7979 -p 8080:8080 -p 8081:8081 -p 8082:8082 -p 8083:8083 -p 38991:38991 $DOCKERHUB_USER/$DOCKERHUB_REPO:gameday-o11y-vlatest

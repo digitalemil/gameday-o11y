@@ -16,7 +16,7 @@ groups:
   rules:
   - alert: CockroachDB-Node-Down
     # Condition for alerting
-    expr: min(crdb_dedicated_liveness_livenodes{job="cockroachdb"})
+    expr: min(crdb_dedicated_liveness_livenodes{job="cockroachdb"})<3
     for: 10s
     # Annotation - additional informational labels to store more information
     annotations:

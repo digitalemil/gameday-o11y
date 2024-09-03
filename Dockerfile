@@ -12,10 +12,6 @@ RUN chmod +x minio
 RUN mv minio /opt/minio/
 RUN mkdir /mnt/data
 
-RUN curl -LJO https://github.com/grafana/agent/releases/download/v0.39.0-rc.0/grafana-agent-linux-amd64.zip
-RUN unzip grafana-agent-linux-amd64.zip 
-RUN chmod +x grafana-agent-linux-amd64
-
 RUN curl -LJO https://github.com/prometheus/prometheus/releases/download/v2.54.1/prometheus-2.54.1.linux-amd64.tar.gz
 RUN tar xzf prometheus-2.54.1.linux-amd64.tar.gz 
 RUN mkdir /opt/app/prometheus-2.54.1.linux-amd64/alert_manager
