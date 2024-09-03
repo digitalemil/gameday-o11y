@@ -23,12 +23,8 @@ alerting:
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'cockroachdb'
-    metrics_path: '/api/v1/clusters/${cluster_id}/metricexport/prometheus/${cluster_region}/scrape'
-    static_configs:
-      - targets: ['cockroachlabs.cloud']
-    scheme: 'https'
-    authorization:
-      credentials: '${secret_key}'
+    metrics_path: '${METRICSPATH}'
+    ${TARGET}      
   - job_name: 'prometheus'
 
     # Override the global default and scrape targets from this job every 5 seconds.

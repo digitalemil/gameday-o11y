@@ -31,7 +31,7 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com 
 RUN apt-get update -y
 RUN apt-get install --yes grafana 
 
-RUN apt-get install --yes loki promtail
+RUN apt-get install --yes loki promtail less
 
 RUN apt install --yes curl gnupg2 ca-certificates lsb-release debian-archive-keyring
 RUN curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor     | tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
@@ -48,7 +48,8 @@ COPY rules.yml /opt/app/prometheus-2.54.1.linux-amd64/
 COPY loki-local-config.yaml /opt/app
 COPY datasources.yaml /opt/app
 COPY dashboards.yaml /opt/app
-COPY dashboards /opt/app/dashboards
+COPY localdashboards /opt/app/localdashboards
+COPY dedicateddashboards /opt/app/dedicateddashboards
 COPY html /opt/app/html
 COPY minio.sh /opt/app
 
